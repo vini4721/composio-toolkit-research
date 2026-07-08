@@ -1,0 +1,12 @@
+# core
+anthropic>=0.40
+composio>=0.7
+requests>=2.31
+pydantic>=2.6
+
+# reasoner option A — Claude (paid): used by research_agent.py
+composio-anthropic>=0.7
+
+# reasoner option B — Gemini (free tier): used by research_agent_gemini.py
+composio-google>=0.7
+google-genai>=1.0

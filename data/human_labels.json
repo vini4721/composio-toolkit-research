@@ -1,0 +1,38 @@
+[
+  {
+    "id": 15,
+    "name": "Pylon",
+    "auth": "API key (Bearer)",
+    "self_serve": "self-serve",
+    "api_surface": "Broad REST API (issues, accounts, contacts, KB, messages, teams, webhooks).",
+    "mcp": "yes",
+    "verdict": "easy"
+  },
+  {
+    "id": 50,
+    "name": "fanbasis",
+    "auth": "API key (Bearer)",
+    "self_serve": "self-serve",
+    "api_surface": "REST API (checkout sessions, subscriptions, customers, webhooks) + official Node/Python/PHP/Ruby SDKs.",
+    "mcp": "no",
+    "verdict": "easy"
+  },
+  {
+    "id": 92,
+    "name": "Otter AI",
+    "auth": "OAuth2 (Claude/ChatGPT connector) + bearer token (Enterprise API, beta)",
+    "self_serve": "partial",
+    "api_surface": "Official MCP server (search/list/fetch transcripts); public REST API is beta, Enterprise-only.",
+    "mcp": "yes",
+    "verdict": "buildable"
+  },
+  {
+    "id": 95,
+    "name": "Reducto",
+    "auth": "API key (Bearer, REDUCTO_API_KEY)",
+    "self_serve": "self-serve",
+    "api_surface": "REST API (parse/split/extract/edit) + Python/Node/Go SDKs + CLI + MCP server.",
+    "mcp": "yes",
+    "verdict": "easy"
+  }
+]
