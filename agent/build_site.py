@@ -14,7 +14,7 @@ from collections import Counter, defaultdict
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT.parent / "data"
 SITE = ROOT.parent / "site"
-REPO_URL = "https://github.com/YOUR_USERNAME/composio-toolkit-research"  # <-- fill in
+REPO_URL = "https://github.com/vini4721/composio-toolkit-research"
 
 apps = json.loads((DATA / "results.json").read_text())
 apps.sort(key=lambda a: a["id"])
