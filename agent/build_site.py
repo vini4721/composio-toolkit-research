@@ -135,6 +135,22 @@ for a in verified:
 def trow(name):
     return f'<div class="tier-stat t-{TIER_KEY[name]}"><span class="tn">{tier.get(name,0)}</span><span class="tl">{esc(name)}</span></div>'
 
+MATRIX_MCP = {"yes": "official", "community": "community", "no": "—", "unknown": "?"}
+matrix_rows = ""
+for a in apps:
+    k = TIER_KEY[a["tier"]]
+    star = '<span class="tag v">★</span>' if a.get("verified") else ''
+    matrix_rows += (
+        f'<tr data-id="{a["id"]}">'
+        f'<td class="mn">{esc(a["name"])}<small>{esc(a["one_liner"])}</small></td>'
+        f'<td>{esc(a["auth"])}</td><td>{esc(a["self_serve"])}</td>'
+        f'<td>{esc(a["api_surface"])}</td>'
+        f'<td>{MATRIX_MCP.get(a["mcp"], esc(a["mcp"]))}</td>'
+        f'<td>{esc(a["verdict"])}</td>'
+        f'<td><span class="tag {k}">{esc(a["tier"])}</span>{star}</td>'
+        f'<td><a class="mono" href="{esc(a["evidence"])}" target="_blank" rel="noopener" style="font-size:12px">docs ↗</a></td>'
+        f'</tr>')
+
 DATA_JSON = json.dumps([{k: a.get(k) for k in
     ["id","name","website","category","one_liner","auth","self_serve","serve_note",
      "api_surface","mcp","verdict","blocker","evidence","confidence","tier","verified"]}
@@ -413,7 +429,7 @@ footer{{padding:56px 0 90px;border-top:1px solid var(--line)}}
   <div style="overflow-x:auto">
   <table class="mtable"><thead><tr>
     <th>App</th><th>Auth</th><th>Access</th><th>API surface</th><th>MCP</th><th>Verdict</th><th>Tier</th><th>Evidence</th>
-  </tr></thead><tbody id="mbody"></tbody></table>
+  </tr></thead><tbody id="mbody">{matrix_rows}</tbody></table>
   </div>
 </section>
 
@@ -422,10 +438,10 @@ footer{{padding:56px 0 90px;border-top:1px solid var(--line)}}
   <p class="sintro" style="margin-bottom:18px">The whole thing is one repo. The agent, the verification loop, and this page all read the same <code class="mono">results.json</code>, so the deliverable can't drift from the data.</p>
   <div class="runbox">
 <span class="c"># 1 · install</span><br>pip install -r requirements.txt<br><br>
-<span class="c"># 2 · keys</span><br>export <span class="k">ANTHROPIC_API_KEY</span>=...  <span class="c"># the reasoner</span><br>export <span class="k">COMPOSIO_API_KEY</span>=...   <span class="c"># the research tools</span><br><br>
-<span class="c"># 3 · research all 100 (or --local for LLM-only, --limit N to smoke-test)</span><br>python agent/research_agent.py<br><br>
-<span class="c"># 4 · verification loop + accuracy score</span><br>python agent/verify.py<br><br>
-<span class="c"># 5 · rebuild this page from the verified data</span><br>python agent/build_site.py
+<span class="c"># 2 · keys (free: Gemini reasoner + Composio tools)</span><br>export <span class="k">GOOGLE_API_KEY</span>=...    <span class="c"># free — aistudio.google.com/apikey</span><br>export <span class="k">COMPOSIO_API_KEY</span>=...  <span class="c"># free — composio.dev</span><br><br>
+<span class="c"># 3 · research the apps (--limit N to smoke-test)</span><br>python agent/research_agent_gemini.py --limit 5<br><br>
+<span class="c"># 4 · verification loop + accuracy score</span><br>python agent/verify.py --score-only<br><br>
+<span class="c"># 5 · rebuild this page from the verified data</span><br>python agent/apps_data.py &gt; data/results.json &amp;&amp; python agent/add_tiers.py &amp;&amp; python agent/build_site.py
   </div>
   <div class="btnrow">
     <a class="btn primary" href="{REPO_URL}" target="_blank" rel="noopener">Source repo ↗</a>
